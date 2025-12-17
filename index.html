@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Doğum Günün Kutlu Olsun ✨</title>
+  <style>
+    :root{
+      --bg:#0b1020;
+      --text:#e9ecff;
+      --muted:#b9c0ffcc;
+      --accent:#ff4fd8;
+      --accent2:#55d6ff;
+      --good:#42ffb3;
+      --bad:#ff6b6b;
+      --shadow: 0 14px 40px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background: radial-gradient(1200px 700px at 20% 10%, rgba(255,79,216,.25), transparent 60%),
+                  radial-gradient(900px 600px at 90% 25%, rgba(85,214,255,.18), transparent 55%),
+                  radial-gradient(800px 600px at 60% 95%, rgba(66,255,179,.14), transparent 55%),
+                  var(--bg);
+      color:var(--text);
+      min-height:100vh;
+    }
+    .wrap{max-width:1100px; margin:0 auto; padding:28px 18px 70px}
+
+    header{
+      display:flex; gap:18px; align-items:center; justify-content:space-between;
+      padding:20px; border-radius:var(--radius);
+      background: linear-gradient(180deg, rgba(17,26,51,.9), rgba(15,23,48,.75));
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.08);
+      position:sticky; top:14px; backdrop-filter: blur(10px);
+      z-index:10;
+    }
+    .title{display:flex; flex-direction:column; gap:6px;}
+    .title h1{margin:0; font-size:18px; letter-spacing:.2px}
+    .title p{margin:0; color:var(--muted); font-size:13px}
+    .pillbar{display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end}
+    .pill{
+      padding:10px 12px; border-radius:999px; font-size:13px; cursor:pointer;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      transition: transform .15s ease, background .15s ease;
+      user-select:none;
+    }
+    .pill:hover{transform: translateY(-1px); background: rgba(255,255,255,.10)}
+
+    main{margin-top:18px; display:grid; grid-template-columns: 1.35fr .9fr; gap:16px}
+    @media (max-width: 960px){
+      main{grid-template-columns:1fr;}
+      header{position:relative; top:auto}
+      .pillbar{justify-content:flex-start}
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(17,26,51,.9), rgba(15,23,48,.8));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .head{
+      padding:18px 18px 0;
+      display:flex; align-items:flex-start; justify-content:space-between; gap:12px;
+    }
+    .card h2{margin:0; font-size:16px}
+    .card p{margin:8px 0 0; color:var(--muted); font-size:13px; line-height:1.45}
+    .content{padding:18px}
+
+    /* MOMENTS */
+    .slider{display:grid; grid-template-columns: 1fr; gap:12px;}
+    .frame{
+      position:relative;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      overflow:hidden;
+      aspect-ratio: 16/9;
+      min-height: 240px;
+    }
+    .frame img{
+      width:100%; height:100%; object-fit:cover; display:block;
+      transform: scale(1.02);
+      filter: saturate(1.05) contrast(1.05);
+    }
+    .caption{
+      position:absolute; left:14px; right:14px; bottom:14px;
+      padding:12px 12px;
+      border-radius: 14px;
+      background: rgba(10,15,30,.55);
+      border:1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(8px);
+    }
+    .caption .big{font-weight:700; font-size:14px; margin:0 0 4px}
+    .caption .small{margin:0; color:var(--muted); font-size:12px; line-height:1.35}
+
+    .controls{display:flex; gap:10px; align-items:center; justify-content:space-between}
+    .btn{
+      padding:10px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.07);
+      border:1px solid rgba(255,255,255,.12);
+      color:var(--text);
+      cursor:pointer;
+      font-weight:600;
+      transition: transform .15s ease, background .15s ease;
+    }
+    .btn:hover{transform: translateY(-1px); background: rgba(255,255,255,.11)}
+    .btn:active{transform: translateY(0px)}
+
+    .dots{display:flex; gap:8px; align-items:center; justify-content:center; flex-wrap:wrap}
+    .dot{
+      width:9px; height:9px; border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.14);
+      cursor:pointer;
+      transition: transform .15s ease, background .2s ease;
+    }
+    .dot.active{background: linear-gradient(90deg, var(--accent), var(--accent2)); transform: scale(1.2)}
+
+    .thumbs{display:grid; grid-template-columns: repeat(7, 1fr); gap:10px; margin-top:12px;}
+    @media (max-width: 720px){.thumbs{grid-template-columns: repeat(4, 1fr)}}
+    @media (max-width: 520px){.thumbs{grid-template-columns: repeat(3, 1fr)}}
+    .thumb{
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      overflow:hidden;
+      cursor:pointer;
+      aspect-ratio: 1/1;
+      position:relative;
+      transition: transform .15s ease, outline .15s ease;
+    }
+    .thumb:hover{transform: translateY(-2px)}
+    .thumb.active{outline:2px solid rgba(255,79,216,.55)}
+    .thumb img{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.05)}
+
+    /* LIGHTBOX */
+    .lightbox{position:fixed; inset:0; background: rgba(0,0,0,.7); display:none; align-items:center; justify-content:center; padding:18px; z-index:100;}
+    .lightbox.open{display:flex}
+    .lightbox .box{width:min(1100px, 100%); border-radius: 18px; background: rgba(15,23,48,.85); border:1px solid rgba(255,255,255,.10); box-shadow: 0 24px 70px rgba(0,0,0,.55); overflow:hidden;}
+    .lightbox .top{display:flex; align-items:center; justify-content:space-between; padding:12px 14px; border-bottom:1px solid rgba(255,255,255,.08);}
+    .x{width:40px; height:40px; border-radius: 12px; display:grid; place-items:center; cursor:pointer; background: rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.10);}
+    .lightbox img{width:100%; height:auto; display:block; max-height: 76vh; object-fit:contain; background: rgba(0,0,0,.25)}
+
+    /* MINI GAME */
+    .game{display:grid; gap:12px;}
+
+    .scorebar{
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      padding:12px 12px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.035));
+    }
+
+    .badge{
+      padding:8px 10px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: linear-gradient(90deg, rgba(255,79,216,.12), rgba(85,214,255,.10));
+      font-weight:800;
+      font-size:12px;
+      letter-spacing:.2px;
+    }
+
+    .q{
+      padding:16px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(700px 280px at 15% 10%, rgba(255,79,216,.14), transparent 55%),
+        radial-gradient(620px 260px at 90% 20%, rgba(85,214,255,.12), transparent 55%),
+        rgba(255,255,255,.04);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .q:before{
+      content:"";
+      position:absolute; inset:-2px;
+      background: linear-gradient(90deg, rgba(255,79,216,.18), rgba(85,214,255,.16), rgba(66,255,179,.10));
+      opacity:.35;
+      filter: blur(18px);
+      pointer-events:none;
+    }
+
+    .q > *{position:relative}
+
+    .q h3{
+      margin:0 0 10px;
+      font-size:16px;
+      letter-spacing:.2px;
+      line-height:1.25;
+    }
+
+    .q .hint{
+      margin:0;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.45;
+    }
+
+    .answers{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .ans{
+      text-align:left;
+      padding:13px 14px;
+      border-radius: 16px;
+      border:1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.05));
+      color:var(--text);
+      cursor:pointer;
+      font-weight:750;
+      letter-spacing:.15px;
+      position:relative;
+      overflow:hidden;
+      transform: translateZ(0);
+      transition: transform .14s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease;
+    }
+
+    .ans:before{
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(600px 120px at 20% 0%, rgba(255,79,216,.18), transparent 60%),
+                  radial-gradient(600px 140px at 90% 10%, rgba(85,214,255,.14), transparent 60%);
+      opacity:.55;
+      pointer-events:none;
+    }
+
+    .ans:after{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius: 16px;
+      box-shadow: 0 0 0 0 rgba(255,79,216,.0);
+      pointer-events:none;
+      transition: box-shadow .18s ease;
+    }
+
+    .ans:hover{
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,.22);
+      background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.06));
+      box-shadow: 0 12px 26px rgba(0,0,0,.25);
+    }
+
+    .ans:active{transform: translateY(0px) scale(.99)}
+
+    .ans:focus-visible{
+      outline: 3px solid rgba(85,214,255,.35);
+      outline-offset: 2px;
+    }
+
+    .ans[disabled]{
+      cursor:not-allowed;
+      opacity:.82;
+      transform:none;
+    }
+
+    @keyframes popIn{
+      0%{transform: translateY(-1px) scale(.99)}
+      60%{transform: translateY(0) scale(1.02)}
+      100%{transform: translateY(0) scale(1)}
+    }
+
+    .ans.good{
+      border-color: rgba(66,255,179,.70);
+      background: linear-gradient(180deg, rgba(66,255,179,.18), rgba(255,255,255,.05));
+      box-shadow: 0 16px 34px rgba(66,255,179,.10);
+      animation: popIn .22s ease;
+    }
+
+    .ans.bad{
+      border-color: rgba(255,107,107,.70);
+      background: linear-gradient(180deg, rgba(255,107,107,.18), rgba(255,255,255,.05));
+      box-shadow: 0 16px 34px rgba(255,107,107,.10);
+      animation: popIn .22s ease;
+    }
+
+    .ans.good span,
+    .ans.bad span{position:relative}
+
+    .ans.good::after{
+      box-shadow: 0 0 0 2px rgba(66,255,179,.25), 0 0 36px rgba(66,255,179,.14);
+    }
+
+    .ans.bad::after{
+      box-shadow: 0 0 0 2px rgba(255,107,107,.22), 0 0 36px rgba(255,107,107,.12);
+    }
+
+    .hearts{position:relative; height:68px; overflow:hidden; border-radius:16px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04)}
+    .hearts .tap{position:absolute; inset:0; display:grid; place-items:center; color:var(--muted); font-size:12px; text-align:center; padding:10px; user-select:none;}
+    .heart{position:absolute; font-size:18px; animation: floatUp 1.8s ease-out forwards; opacity:.9; filter: drop-shadow(0 8px 20px rgba(255,79,216,.18));}
+    @keyframes floatUp{0%{transform: translateY(0) scale(.9); opacity:.0}10%{opacity:.95}100%{transform: translateY(-90px) scale(1.35); opacity:0}}
+
+    /* FINALE OVERLAY */
+    .finale{position:fixed; inset:0; display:none; align-items:center; justify-content:center; padding:18px; z-index:999;
+      background: radial-gradient(900px 600px at 20% 10%, rgba(255,79,216,.22), transparent 60%),
+                  radial-gradient(900px 600px at 90% 25%, rgba(85,214,255,.18), transparent 55%),
+                  rgba(0,0,0,.72);
+      backdrop-filter: blur(10px);
+      animation: finaleFadeIn .55s ease both;
+    }
+    .finale.open{display:flex}
+    @keyframes finaleFadeIn{from{opacity:0}to{opacity:1}}
+    .finaleCard{width:min(980px, 100%); border-radius: 22px; overflow:hidden; border:1px solid rgba(255,255,255,.12); background: rgba(15,23,48,.88); box-shadow: 0 28px 90px rgba(0,0,0,.6);
+      transform: translateY(12px) scale(.98); animation: finalePop .55s cubic-bezier(.2,.9,.2,1) .08s both;}
+    @keyframes finalePop{to{transform: translateY(0) scale(1)}}
+    .finaleImgWrap{position:relative; aspect-ratio: 16/9; background: rgba(0,0,0,.25)}
+    .finaleImg{width:100%; height:100%; object-fit:cover; display:block; transform: scale(1.08); filter: saturate(1.05) contrast(1.06); animation: finaleKenBurns 7s ease-out both;}
+    @keyframes finaleKenBurns{from{transform: scale(1.12)}to{transform: scale(1.03)}}
+    .finaleGlow{position:absolute; inset:0; background: radial-gradient(600px 360px at 30% 20%, rgba(255,255,255,.22), transparent 55%), linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.55) 100%); pointer-events:none;}
+    .finaleBody{padding:16px 16px 18px}
+    .finaleTitle{margin:0; font-size:16px; font-weight:850; letter-spacing:.2px}
+    .finaleNote{margin:8px 0 0; color:var(--muted); line-height:1.55; font-size:13px; white-space:pre-line}
+    .finaleActions{display:flex; gap:10px; justify-content:flex-end; margin-top:14px; flex-wrap:wrap}
+    .finaleClose{position:absolute; top:14px; right:14px; width:44px; height:44px; border-radius: 14px; display:grid; place-items:center; cursor:pointer; background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); backdrop-filter: blur(10px); font-weight:900; z-index:2; transition: transform .15s ease, background .15s ease;}
+    .finaleClose:hover{transform: translateY(-1px); background: rgba(255,255,255,.12)}
+
+    footer{margin-top:16px; padding:16px; color:var(--muted); font-size:12px; text-align:center; opacity:.95;}
+    code{background: rgba(255,255,255,.06); padding:2px 6px; border-radius: 8px; border:1px solid rgba(255,255,255,.08)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="title">
+        <h1>Doğum Günün Kutlu Olsun ✨</h1>
+        <p>7 fotoğraf + mini quiz. Quiz bitince tam ekran sürpriz foto açılır.</p>
+      </div>
+      <div class="pillbar">
+        <div class="pill" onclick="document.getElementById('moments').scrollIntoView({behavior:'smooth'})">📸 Anılar</div>
+        <div class="pill" onclick="document.getElementById('game').scrollIntoView({behavior:'smooth'})">🎮 Mini Oyun</div>
+        <div class="pill" onclick="openLightbox(currentIndex)">🔍 Fotoğrafı büyüt</div>
+      </div>
+    </header>
+
+    <main>
+      <!-- MOMENTS CARD -->
+      <section class="card" id="moments">
+        <div class="head">
+          <div>
+            <h2>📸 Anılar</h2>
+            <p>Ok tuşlarıyla gez, küçük görsellere tıkla. Fotoğrafa tıklayınca büyüt.</p>
+          </div>
+          <button class="btn" id="autoplayBtn" title="Otomatik akış">▶️ Otomatik</button>
+        </div>
+
+        <div class="content">
+          <div class="slider">
+            <div class="frame" id="frame" title="Büyütmek için tıkla">
+              <img id="mainImg" alt="Anı" />
+              <div class="caption">
+                <p class="big" id="capTitle">—</p>
+                <p class="small" id="capText">—</p>
+              </div>
+            </div>
+
+            <div class="controls">
+              <button class="btn" id="prevBtn">⬅️ Önceki</button>
+              <div class="dots" id="dots"></div>
+              <button class="btn" id="nextBtn">Sonraki ➡️</button>
+            </div>
+
+            <div class="thumbs" id="thumbs"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- GAME CARD -->
+      <section class="card" id="game">
+        <div class="head">
+          <div>
+            <h2>🎮 Mini Oyun</h2>
+            <p>Küçük bir quiz. Hepsini bitirince sürpriz foto + not açılır.</p>
+          </div>
+          <button class="btn" id="resetBtn">🔄 Sıfırla</button>
+        </div>
+
+        <div class="content">
+          <div class="game">
+            <div class="scorebar">
+              <div>
+                <strong>Skor:</strong> <span id="score">0</span>
+                <span style="color:var(--muted)"> / </span>
+                <span id="total">0</span>
+              </div>
+              <span class="badge" id="level">💗 Başla</span>
+            </div>
+
+            <div class="q" id="qBox">
+              <h3 id="qTitle">—</h3>
+              <p class="hint" id="qHint">—</p>
+              <div class="answers" id="answers"></div>
+            </div>
+
+            <div class="hearts" id="hearts">
+              <div class="tap">Kalp yağmuru için tıkla ✨</div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>Made with 💜</footer>
+  </div>
+
+  <!-- FINALE (QUIZ tamamlanınca tam ekran sürpriz) -->
+  <div class="finale" id="finale" aria-hidden="true">
+    <div class="finaleCard" role="dialog" aria-modal="true" aria-label="Sürpriz">
+      <div class="finaleImgWrap">
+        <div class="finaleClose" id="finaleClose" title="Kapat">✕</div>
+        <img class="finaleImg" id="finaleImg" alt="Sürpriz fotoğraf" />
+        <div class="finaleGlow"></div>
+      </div>
+      <div class="finaleBody">
+        <p class="finaleTitle" id="finaleTitle">Sürpriz ✨</p>
+        <p class="finaleNote" id="finaleNote">—</p>
+        <div class="finaleActions">
+          <button class="btn" id="finaleReplay">🔄 Tekrar oyna</button>
+          <button class="btn" id="finaleOk">💗 Tamam</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <div class="box">
+      <div class="top">
+        <div style="font-weight:700; font-size:13px" id="lbTitle">Fotoğraf</div>
+        <div class="x" id="lbClose" title="Kapat">✕</div>
+      </div>
+      <img id="lbImg" alt="Büyütülmüş fotoğraf" />
+    </div>
+  </div>
+
+  <script>
+    // =========================
+    // Helpers (offline preview placeholders)
+    // =========================
+
+    function escapeXml(s){
+      return String(s)
+        .replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;')
+        .replace(/'/g,'&apos;');
+    }
+
+    function svgPlaceholder(big, small){
+      // Ensure any user-provided text cannot break SVG markup.
+      const safeBig = escapeXml(big);
+      const safeSmall = escapeXml(small);
+      const svg = `\
+<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='900'>\
+  <defs>\
+    <linearGradient id='g' x1='0' y1='0' x2='1' y2='1'>\
+      <stop offset='0' stop-color='#ff4fd8' stop-opacity='.85'/>\
+      <stop offset='.5' stop-color='#55d6ff' stop-opacity='.55'/>\
+      <stop offset='1' stop-color='#42ffb3' stop-opacity='.45'/>\
+    </linearGradient>\
+  </defs>\
+  <rect width='100%' height='100%' fill='#0b1020'/>\
+  <rect width='100%' height='100%' fill='url(#g)' opacity='.9'/>\
+  <text x='70' y='180' font-family='ui-sans-serif, system-ui' font-size='66' fill='#ffffff' opacity='.95' font-weight='800'>${safeBig}</text>\
+  <text x='70' y='265' font-family='ui-sans-serif, system-ui' font-size='34' fill='#ffffff' opacity='.82'>${safeSmall}</text>\
+  <text x='70' y='820' font-family='ui-sans-serif, system-ui' font-size='26' fill='#ffffff' opacity='.72'>Fotoğraf bulunamazsa bu placeholder görünür.</text>\
+</svg>`;
+      return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+    }
+
+    // =========================
+    // 1) MOMENTS (7 photo) — filenames: images1..images7
+    // =========================
+
+    const notes = [
+      'Bazı insanlar vardır; hayatına girdiği an her şey daha anlamlı olur.',
+      'Gülüşün, en sessiz anlarımda bile içimi ısıtıyor.',
+      'Yanında zaman durmuyor ama acele de etmiyor.',
+      'Sen varken, hiçbir şey eksik gelmiyor.',
+      'Hayat bazen zor, ama sen hep doğru yerdesin.',
+      'Kalbim, seni tanıdıktan sonra daha cesur.',
+      'Bazı anlar fotoğrafa sığmaz, ama kalpte kalır.'
+    ];
+
+    const moments = [
+      { src: 'images1.jpg', title: '💗', text: notes[0], fallback: svgPlaceholder('images1.jpg', notes[0]) },
+      { src: 'images2.jpg', title: '💗', text: notes[1], fallback: svgPlaceholder('images2.jpg', notes[1]) },
+      { src: 'images3.jpg', title: '💗', text: notes[2], fallback: svgPlaceholder('images3.jpg', notes[2]) },
+      { src: 'images4.jpg', title: '💗', text: notes[3], fallback: svgPlaceholder('images4.jpg', notes[3]) },
+      { src: 'images5.jpg', title: '💗', text: notes[4], fallback: svgPlaceholder('images5.jpg', notes[4]) },
+      { src: 'images6.jpg', title: '💗', text: notes[5], fallback: svgPlaceholder('images6.jpg', notes[5]) },
+      { src: 'images7.jpg', title: '💗', text: notes[6], fallback: svgPlaceholder('images7.jpg', notes[6]) },
+    ];
+
+    let currentIndex = 0;
+    let autoplay = false;
+    let autoplayTimer = null;
+
+    const mainImg = document.getElementById('mainImg');
+    const capTitle = document.getElementById('capTitle');
+    const capText = document.getElementById('capText');
+    const dots = document.getElementById('dots');
+    const thumbs = document.getElementById('thumbs');
+    const frame = document.getElementById('frame');
+
+    function renderDots(){
+      dots.innerHTML = '';
+      moments.forEach((_, i) => {
+        const d = document.createElement('div');
+        d.className = 'dot' + (i === currentIndex ? ' active' : '');
+        d.title = `#${i+1}`;
+        d.addEventListener('click', () => goTo(i));
+        dots.appendChild(d);
+      });
+    }
+
+    function renderThumbs(){
+      thumbs.innerHTML = '';
+      moments.forEach((m, i) => {
+        const t = document.createElement('div');
+        t.className = 'thumb' + (i === currentIndex ? ' active' : '');
+        const img = document.createElement('img');
+        img.src = m.src;
+        img.alt = `images${i+1}`;
+        img.onerror = () => { img.src = m.fallback; };
+        t.appendChild(img);
+        t.addEventListener('click', () => goTo(i));
+        thumbs.appendChild(t);
+      });
+    }
+
+    function setActiveUI(){
+      [...dots.children].forEach((c, i) => c.classList.toggle('active', i === currentIndex));
+      [...thumbs.children].forEach((c, i) => c.classList.toggle('active', i === currentIndex));
+    }
+
+    function goTo(i){
+      currentIndex = (i + moments.length) % moments.length;
+      const m = moments[currentIndex];
+      mainImg.src = m.src;
+      mainImg.onerror = () => { mainImg.src = m.fallback; };
+      capTitle.textContent = m.title;
+      capText.textContent = m.text;
+      setActiveUI();
+    }
+
+    document.getElementById('prevBtn').addEventListener('click', () => goTo(currentIndex - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => goTo(currentIndex + 1));
+
+    // Keyboard support
+    window.addEventListener('keydown', (e) => {
+      if(e.key === 'ArrowLeft') goTo(currentIndex - 1);
+      if(e.key === 'ArrowRight') goTo(currentIndex + 1);
+      if(e.key === 'Escape'){
+        closeLightbox();
+        closeFinale();
+      }
+    });
+
+    frame.addEventListener('click', () => openLightbox(currentIndex));
+
+    // Autoplay
+    const autoplayBtn = document.getElementById('autoplayBtn');
+    autoplayBtn.addEventListener('click', () => {
+      autoplay = !autoplay;
+      autoplayBtn.textContent = autoplay ? '⏸️ Duraklat' : '▶️ Otomatik';
+      if(autoplay){
+        autoplayTimer = setInterval(() => goTo(currentIndex + 1), 3200);
+      }else{
+        clearInterval(autoplayTimer);
+        autoplayTimer = null;
+      }
+    });
+
+    // =========================
+    // 2) MINI GAME (Quiz)
+    // =========================
+
+    const quiz = [
+      {
+        q: 'Sence bugün en çok ne yakışır?',
+        hint: 'Küçük bir kutlama ✨',
+        options: ['Gülümsemek', 'Müzik', 'Bir dilek', 'Hepsi'],
+        answerIndex: 3
+      },
+      {
+        q: 'Kalbimi en hızlı ne yumuşatır?',
+        hint: 'Tek bir şey seç 🙂',
+        options: ['Bir bakış', 'Bir kelime', 'Bir gülüş', 'Hepsi'],
+        answerIndex: 2
+      },
+      {
+        q: 'Bu mini quizin finalinde ne var?',
+        hint: 'Sürpriz 🎁',
+        options: ['Bir mesaj', 'Bir fotoğraf', 'İkisi birden', 'Hiçbiri'],
+        answerIndex: 2
+      }
+    ];
+
+    let qIndex = 0;
+    let score = 0;
+
+    const qTitle = document.getElementById('qTitle');
+    const qHint = document.getElementById('qHint');
+    const answersEl = document.getElementById('answers');
+    const scoreEl = document.getElementById('score');
+    const totalEl = document.getElementById('total');
+    const levelEl = document.getElementById('level');
+
+    totalEl.textContent = quiz.length;
+
+    function levelText(s){
+      const pct = quiz.length ? (s/quiz.length) : 0;
+      if(pct >= 1) return '🏆 Efsane!';
+      if(pct >= .66) return '✨ Harika!';
+      if(pct >= .33) return '💖 Güzel gidiyor';
+      return '💗 Başla';
+    }
+
+    function renderQuestion(){
+      const item = quiz[qIndex];
+      qTitle.textContent = item.q;
+      qHint.textContent = item.hint;
+      answersEl.innerHTML = '';
+
+      item.options.forEach((opt, i) => {
+        const b = document.createElement('button');
+        b.className = 'ans';
+        b.textContent = opt;
+        b.addEventListener('click', () => choose(i, b));
+        answersEl.appendChild(b);
+      });
+    }
+
+    function lockAnswers(lock=true){
+      [...answersEl.children].forEach(btn => btn.disabled = lock);
+    }
+
+    function choose(i, btn){
+      const item = quiz[qIndex];
+      lockAnswers(true);
+      const correct = i === item.answerIndex;
+
+      if(correct){
+        btn.classList.add('good');
+        score++;
+        scoreEl.textContent = score;
+        levelEl.textContent = levelText(score);
+        popHearts(10);
+        setTimeout(() => {
+          qIndex++;
+          if(qIndex >= quiz.length){
+            showFinished();
+          }else{
+            renderQuestion();
+            lockAnswers(false);
+          }
+        }, 850);
+      }else{
+        btn.classList.add('bad');
+        popHearts(3);
+        setTimeout(() => {
+          btn.classList.remove('bad');
+          lockAnswers(false);
+        }, 700);
+      }
+    }
+
+    function showFinished(){
+      qTitle.textContent = 'Bitti! 🎉';
+      qHint.textContent = `Skor: ${score}/${quiz.length}`;
+      answersEl.innerHTML = '';
+      const b = document.createElement('button');
+      b.className = 'ans good';
+      b.textContent = 'Sürprizi aç ✨';
+      b.addEventListener('click', openFinale);
+      answersEl.appendChild(b);
+      popHearts(18);
+      setTimeout(() => openFinale(), 700);
+    }
+
+    function resetGame(){
+      closeFinale();
+      qIndex = 0;
+      score = 0;
+      scoreEl.textContent = score;
+      levelEl.textContent = levelText(score);
+      renderQuestion();
+      lockAnswers(false);
+    }
+
+    document.getElementById('resetBtn').addEventListener('click', resetGame);
+
+    // =========================
+    // 3) HEARTS
+    // =========================
+
+    const heartsBox = document.getElementById('hearts');
+    heartsBox.addEventListener('click', () => popHearts(8));
+
+    function popHearts(count){
+      const rect = heartsBox.getBoundingClientRect();
+      for(let i=0;i<count;i++){
+        const h = document.createElement('div');
+        h.className = 'heart';
+        h.textContent = Math.random() > .15 ? '💗' : '✨';
+        const left = Math.random() * rect.width;
+        const top = rect.height - (Math.random()*12 + 6);
+        h.style.left = left + 'px';
+        h.style.top = top + 'px';
+        heartsBox.appendChild(h);
+        setTimeout(() => h.remove(), 1900);
+      }
+    }
+
+    // =========================
+    // 4) FINALE (surprise image: suprise.jpg)
+    // =========================
+
+    const finaleConfig = {
+      src: 'suprise.jpg',
+      fallback: svgPlaceholder('suprise.jpg', 'Sürpriz fotoğraf'),
+      title: 'İyi ki doğdun 💗',
+      // IMPORTANT: Use a template literal or \n escapes; raw newlines inside single quotes cause SyntaxError.
+      note: `Bu sadece bir doğum günü değil.
+Bu, senin dünyaya kattığın güzelliğin
+küçük bir kutlaması.
+
+İyi ki doğdun.`
+    };
+
+    const finale = document.getElementById('finale');
+    const finaleImg = document.getElementById('finaleImg');
+    const finaleTitle = document.getElementById('finaleTitle');
+    const finaleNote = document.getElementById('finaleNote');
+
+    function openFinale(){
+      finaleImg.src = finaleConfig.src;
+      finaleImg.onerror = () => { finaleImg.src = finaleConfig.fallback; };
+      finaleTitle.textContent = finaleConfig.title;
+      finaleNote.textContent = finaleConfig.note;
+      finale.classList.add('open');
+      finale.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+      popHearts(12);
+    }
+
+    function closeFinale(){
+      finale.classList.remove('open');
+      finale.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('finaleClose').addEventListener('click', closeFinale);
+    document.getElementById('finaleOk').addEventListener('click', closeFinale);
+    document.getElementById('finaleReplay').addEventListener('click', () => { closeFinale(); resetGame(); });
+    finale.addEventListener('click', (e) => { if(e.target === finale) closeFinale(); });
+
+    // =========================
+    // 5) LIGHTBOX
+    // =========================
+
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    const lbTitle = document.getElementById('lbTitle');
+
+    function openLightbox(i){
+      const m = moments[i];
+      lbImg.src = m.src;
+      lbImg.onerror = () => { lbImg.src = m.fallback; };
+      lbTitle.textContent = `Fotoğraf ${i+1}`;
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden','false');
+    }
+
+    function closeLightbox(){
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden','true');
+    }
+
+    document.getElementById('lbClose').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLightbox(); });
+
+    // =========================
+    // Minimal tests (console)
+    // =========================
+
+    function runTests(){
+      const required = ['images1.jpg','images2.jpg','images3.jpg','images4.jpg','images5.jpg','images6.jpg','images7.jpg'];
+      console.assert(moments.length === 7, 'Expected 7 moments');
+      console.assert(required.every((f, idx) => moments[idx].src === f), 'Filenames should be images1..images7');
+      console.assert(finaleConfig.src === 'suprise.jpg', 'Final image filename should be suprise.jpg');
+
+      // Added tests
+      const ph = svgPlaceholder('Test <>&"\' 😀', 'Küçük — deneme');
+      console.assert(typeof ph === 'string' && ph.startsWith('data:image/svg+xml'), 'svgPlaceholder should return data:image/svg+xml...');
+      console.assert(typeof finaleConfig.note === 'string' && finaleConfig.note.includes('\n'), 'finaleConfig.note should contain newlines');
+
+      console.info('[OK] Basic tests passed');
+    }
+
+    // Init
+    renderDots();
+    renderThumbs();
+    goTo(0);
+    resetGame();
+    runTests();
+  </script>
+</body>
+</html>
