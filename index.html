@@ -384,16 +384,67 @@
 
     footer{margin-top:16px; padding:16px; color:var(--muted); font-size:12px; text-align:center; opacity:.95;}
     code{background: rgba(255,255,255,.06); padding:2px 6px; border-radius: 8px; border:1px solid rgba(255,255,255,.08)}
-  /* Mobile readability fixes for captions */
+  /* Mobile fixes (ONLY mobile) */
     @media (max-width: 520px){
-      .frame{min-height: 320px;} /* daha fazla alan */
+      /* --- Moments caption box: always fit + scroll inside --- */
+      .content{padding:14px}
+      .frame{
+        min-height: 56vh;            /* ekrana sığsın */
+        max-height: 64vh;
+        aspect-ratio: auto;          /* mobilde daha esnek */
+      }
       .caption{
         left:10px; right:10px; bottom:10px;
         padding:12px 12px;
-        max-height: 48%;
+        max-height: 42%;
         overflow:auto;
         -webkit-overflow-scrolling: touch;
       }
+      .caption .big{font-size:16px; margin:0 0 6px;}
+      .caption .small{font-size:13.5px; line-height:1.55;}
+
+      /* --- Finale (surprise) overlay: card always fits + has visible exit --- */
+      .finale{align-items:flex-end; padding:12px;}
+      .finaleCard{
+        width: 100%;
+        max-height: 92vh;
+        border-radius: 22px 22px 0 0;
+        display:flex;
+        flex-direction:column;
+      }
+      .finaleImgWrap{
+        aspect-ratio: 9 / 16;        /* dikey */
+        max-height: 56vh;            /* alttaki yazı+butonlar görünür kalsın */
+        width:100%;
+      }
+      .finaleBody{
+        flex: 1 1 auto;
+        overflow:auto;
+        -webkit-overflow-scrolling: touch;
+        padding:14px 14px 10px;
+      }
+      .finaleTitle{font-size:17px}
+      .finaleNote{font-size:15px; line-height:1.8}
+
+      /* Butonlar her zaman görünür: sticky action bar */
+      .finaleActions{
+        position: sticky;
+        bottom: 0;
+        padding: 10px 0 4px;
+        background: linear-gradient(180deg, rgba(10,15,30,0), rgba(10,15,30,.92) 35%, rgba(10,15,30,.98) 100%);
+        justify-content: stretch;
+      }
+      .finaleActions .btn{flex:1; text-align:center}
+
+      /* Sağ üst X her zaman görünsün */
+      .finaleClose{
+        top: 10px;
+        right: 10px;
+        width: 46px;
+        height: 46px;
+        z-index: 5;
+      }
+    }
       .caption .big{font-size:16px; margin:0 0 6px;}
       .caption .small{font-size:13.5px; line-height:1.55;}
     }
