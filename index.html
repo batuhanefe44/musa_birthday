@@ -89,34 +89,34 @@
       transform: scale(1.02);
       filter: saturate(1.05) contrast(1.05);
     }
-    /* text readability overlay */
     .frame::after{
       content:"";
       position:absolute; inset:0;
       background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,.35) 78%, rgba(0,0,0,.55) 100%);
       pointer-events:none;
     }
-    .frame .caption{z-index:1}
+
     .caption{
       position:absolute; left:14px; right:14px; bottom:14px;
       padding:14px 14px;
       border-radius: 16px;
-      background: linear-gradient(180deg, rgba(10,15,30,.18), rgba(10,15,30,.72));
+      background: linear-gradient(180deg, rgba(10,15,30,.18), rgba(10,15,30,.74));
       border:1px solid rgba(255,255,255,.14);
       backdrop-filter: blur(10px);
       box-shadow: 0 14px 40px rgba(0,0,0,.35);
+      z-index:1;
     }
     .caption .big{
       font-weight:900;
-      font-size:18px; /* büyütüldü */
+      font-size:18px;
       letter-spacing:.3px;
       margin:0 0 8px;
       text-shadow: 0 12px 26px rgba(0,0,0,.6);
     }
     .caption .small{
       margin:0;
-      color: rgba(233,236,255,.95);
-      font-size:15px; /* büyütüldü */
+      color: rgba(245,247,255,.95);
+      font-size:15px;
       line-height:1.65;
       letter-spacing:.2px;
       text-shadow: 0 12px 26px rgba(0,0,0,.6);
@@ -173,7 +173,6 @@
 
     /* MINI GAME */
     .game{display:grid; gap:12px;}
-
     .scorebar{
       display:flex; align-items:center; justify-content:space-between; gap:12px;
       padding:12px 12px;
@@ -181,7 +180,6 @@
       border:1px solid rgba(255,255,255,.10);
       background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.035));
     }
-
     .badge{
       padding:8px 10px;
       border-radius: 999px;
@@ -203,7 +201,6 @@
       position:relative;
       overflow:hidden;
     }
-
     .q:before{
       content:"";
       position:absolute; inset:-2px;
@@ -212,30 +209,11 @@
       filter: blur(18px);
       pointer-events:none;
     }
-
     .q > *{position:relative}
+    .q h3{margin:0 0 10px; font-size:16px; letter-spacing:.2px; line-height:1.25;}
+    .q .hint{margin:0; color:var(--muted); font-size:12px; line-height:1.45;}
 
-    .q h3{
-      margin:0 0 10px;
-      font-size:16px;
-      letter-spacing:.2px;
-      line-height:1.25;
-    }
-
-    .q .hint{
-      margin:0;
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.45;
-    }
-
-    .answers{
-      display:grid;
-      grid-template-columns: 1fr;
-      gap:10px;
-      margin-top:14px;
-    }
-
+    .answers{display:grid; grid-template-columns: 1fr; gap:10px; margin-top:14px}
     .ans{
       text-align:left;
       padding:13px 14px;
@@ -251,7 +229,6 @@
       transform: translateZ(0);
       transition: transform .14s ease, background .16s ease, border-color .16s ease, box-shadow .16s ease;
     }
-
     .ans:before{
       content:"";
       position:absolute; inset:0;
@@ -260,7 +237,6 @@
       opacity:.55;
       pointer-events:none;
     }
-
     .ans:after{
       content:"";
       position:absolute;
@@ -270,57 +246,21 @@
       pointer-events:none;
       transition: box-shadow .18s ease;
     }
-
     .ans:hover{
       transform: translateY(-1px);
       border-color: rgba(255,255,255,.22);
       background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.06));
       box-shadow: 0 12px 26px rgba(0,0,0,.25);
     }
-
     .ans:active{transform: translateY(0px) scale(.99)}
+    .ans:focus-visible{outline: 3px solid rgba(85,214,255,.35); outline-offset: 2px;}
+    .ans[disabled]{cursor:not-allowed; opacity:.82; transform:none;}
 
-    .ans:focus-visible{
-      outline: 3px solid rgba(85,214,255,.35);
-      outline-offset: 2px;
-    }
-
-    .ans[disabled]{
-      cursor:not-allowed;
-      opacity:.82;
-      transform:none;
-    }
-
-    @keyframes popIn{
-      0%{transform: translateY(-1px) scale(.99)}
-      60%{transform: translateY(0) scale(1.02)}
-      100%{transform: translateY(0) scale(1)}
-    }
-
-    .ans.good{
-      border-color: rgba(66,255,179,.70);
-      background: linear-gradient(180deg, rgba(66,255,179,.18), rgba(255,255,255,.05));
-      box-shadow: 0 16px 34px rgba(66,255,179,.10);
-      animation: popIn .22s ease;
-    }
-
-    .ans.bad{
-      border-color: rgba(255,107,107,.70);
-      background: linear-gradient(180deg, rgba(255,107,107,.18), rgba(255,255,255,.05));
-      box-shadow: 0 16px 34px rgba(255,107,107,.10);
-      animation: popIn .22s ease;
-    }
-
-    .ans.good span,
-    .ans.bad span{position:relative}
-
-    .ans.good::after{
-      box-shadow: 0 0 0 2px rgba(66,255,179,.25), 0 0 36px rgba(66,255,179,.14);
-    }
-
-    .ans.bad::after{
-      box-shadow: 0 0 0 2px rgba(255,107,107,.22), 0 0 36px rgba(255,107,107,.12);
-    }
+    @keyframes popIn{0%{transform: translateY(-1px) scale(.99)}60%{transform: translateY(0) scale(1.02)}100%{transform: translateY(0) scale(1)}}
+    .ans.good{border-color: rgba(66,255,179,.70); background: linear-gradient(180deg, rgba(66,255,179,.18), rgba(255,255,255,.05)); box-shadow: 0 16px 34px rgba(66,255,179,.10); animation: popIn .22s ease;}
+    .ans.bad{border-color: rgba(255,107,107,.70); background: linear-gradient(180deg, rgba(255,107,107,.18), rgba(255,255,255,.05)); box-shadow: 0 16px 34px rgba(255,107,107,.10); animation: popIn .22s ease;}
+    .ans.good::after{box-shadow: 0 0 0 2px rgba(66,255,179,.25), 0 0 36px rgba(66,255,179,.14);}
+    .ans.bad::after{box-shadow: 0 0 0 2px rgba(255,107,107,.22), 0 0 36px rgba(255,107,107,.12);}
 
     .hearts{position:relative; height:68px; overflow:hidden; border-radius:16px; border:1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04)}
     .hearts .tap{position:absolute; inset:0; display:grid; place-items:center; color:var(--muted); font-size:12px; text-align:center; padding:10px; user-select:none;}
@@ -337,8 +277,9 @@
     }
     .finale.open{display:flex}
     @keyframes finaleFadeIn{from{opacity:0}to{opacity:1}}
+
     .finaleCard{
-      width: min(420px, 92vw); /* dikey karta uygun dar genişlik */
+      width: min(420px, 92vw);
       border-radius: 26px;
       overflow:hidden;
       border:1px solid rgba(255,255,255,.14);
@@ -348,107 +289,68 @@
       animation: finalePop .55s cubic-bezier(.2,.9,.2,1) .08s both;
     }
     @keyframes finalePop{to{transform: translateY(0) scale(1)}}
+
     .finaleImgWrap{
       position:relative;
-      aspect-ratio: 9 / 16; /* DİKEY */
+      aspect-ratio: 9 / 16;
       width:100%;
-      max-height: 78vh; /* taşmayı önler */
+      max-height: 78vh;
       background: rgba(0,0,0,.25);
     }
     .finaleImg{width:100%; height:100%; object-fit:cover; display:block; transform: scale(1.03); filter: saturate(1.05) contrast(1.06); animation: finaleKenBurns 7s ease-out both;}
     @keyframes finaleKenBurns{from{transform: scale(1.12)}to{transform: scale(1.03)}}
     .finaleGlow{position:absolute; inset:0; background: radial-gradient(600px 360px at 30% 20%, rgba(255,255,255,.22), transparent 55%), linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.55) 100%); pointer-events:none;}
+
     .finaleBody{padding:16px 16px 18px; background: linear-gradient(180deg, rgba(15,23,48,.90), rgba(10,15,30,.96));}
-    .finaleTitle{
-      margin:0;
-      font-size:18px;
-      font-weight:900;
-      letter-spacing:.35px;
-      text-align:center;
-      text-shadow: 0 14px 30px rgba(0,0,0,.6);
-    }
-    .finaleNote{
-      margin:14px 0 0;
-      color: rgba(245,247,255,.96);
-      line-height:1.85;
-      font-size:15.5px;
-      font-weight:500;
-      letter-spacing:.25px;
-      text-align:center;
-      white-space:pre-line;
-      text-shadow: 0 14px 30px rgba(0,0,0,.6);
-    }
+    .finaleTitle{margin:0; font-size:18px; font-weight:900; letter-spacing:.35px; text-align:center; text-shadow: 0 14px 30px rgba(0,0,0,.6);}
+    .finaleNote{margin:14px 0 0; color: rgba(245,247,255,.96); line-height:1.85; font-size:15.5px; font-weight:500; letter-spacing:.25px; text-align:center; white-space:pre-line; text-shadow: 0 14px 30px rgba(0,0,0,.6);}
     .finaleActions{display:flex; gap:10px; justify-content:flex-end; margin-top:14px; flex-wrap:wrap}
     .finaleClose{position:absolute; top:14px; right:14px; width:44px; height:44px; border-radius: 14px; display:grid; place-items:center; cursor:pointer; background: rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12); backdrop-filter: blur(10px); font-weight:900; z-index:2; transition: transform .15s ease, background .15s ease;}
     .finaleClose:hover{transform: translateY(-1px); background: rgba(255,255,255,.12)}
 
+    /* HEART RAIN LAYER (full-screen, used on surprise open) */
+    .rainLayer{
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      z-index: 1001; /* above finale */
+    }
+    .rainHeart{
+      position:absolute;
+      top:-48px;
+      opacity:.95;
+      animation: rainFall var(--dur, 1.9s) linear forwards;
+      filter: drop-shadow(0 14px 28px rgba(255,79,216,.22));
+      transform: translateX(0);
+    }
+    @keyframes rainFall{
+      to{ transform: translateY(110vh) translateX(var(--dx, 0px)); opacity:0; }
+    }
+
     footer{margin-top:16px; padding:16px; color:var(--muted); font-size:12px; text-align:center; opacity:.95;}
-    code{background: rgba(255,255,255,.06); padding:2px 6px; border-radius: 8px; border:1px solid rgba(255,255,255,.08)}
-  /* Mobile fixes (ONLY mobile) */
+
+    /* Mobile fixes (ONLY mobile) */
     @media (max-width: 520px){
-      /* --- Moments caption box: always fit + scroll inside --- */
       .content{padding:14px}
-      .frame{
-        min-height: 56vh;            /* ekrana sığsın */
-        max-height: 64vh;
-        aspect-ratio: auto;          /* mobilde daha esnek */
-      }
-      .caption{
-        left:10px; right:10px; bottom:10px;
-        padding:12px 12px;
-        max-height: 42%;
-        overflow:auto;
-        -webkit-overflow-scrolling: touch;
-      }
+
+      /* Moments: caption always fits */
+      .frame{min-height:56vh; max-height:64vh; aspect-ratio:auto;}
+      .caption{left:10px; right:10px; bottom:10px; padding:12px; max-height:42%; overflow:auto; -webkit-overflow-scrolling:touch;}
       .caption .big{font-size:16px; margin:0 0 6px;}
       .caption .small{font-size:13.5px; line-height:1.55;}
 
-      /* --- Finale (surprise) overlay: card always fits + has visible exit --- */
+      /* Finale: bottom-sheet style so buttons are visible */
       .finale{align-items:flex-end; padding:12px;}
-      .finaleCard{
-        width: 100%;
-        max-height: 92vh;
-        border-radius: 22px 22px 0 0;
-        display:flex;
-        flex-direction:column;
-      }
-      .finaleImgWrap{
-        aspect-ratio: 9 / 16;        /* dikey */
-        max-height: 56vh;            /* alttaki yazı+butonlar görünür kalsın */
-        width:100%;
-      }
-      .finaleBody{
-        flex: 1 1 auto;
-        overflow:auto;
-        -webkit-overflow-scrolling: touch;
-        padding:14px 14px 10px;
-      }
+      .finaleCard{width:100%; max-height:92vh; border-radius:22px 22px 0 0; display:flex; flex-direction:column;}
+      .finaleImgWrap{max-height:56vh; width:100%;}
+      .finaleBody{flex:1 1 auto; overflow:auto; -webkit-overflow-scrolling:touch; padding:14px 14px 10px;}
       .finaleTitle{font-size:17px}
       .finaleNote{font-size:15px; line-height:1.8}
-
-      /* Butonlar her zaman görünür: sticky action bar */
-      .finaleActions{
-        position: sticky;
-        bottom: 0;
-        padding: 10px 0 4px;
-        background: linear-gradient(180deg, rgba(10,15,30,0), rgba(10,15,30,.92) 35%, rgba(10,15,30,.98) 100%);
-        justify-content: stretch;
-      }
+      .finaleActions{position:sticky; bottom:0; padding:10px 0 4px; background: linear-gradient(180deg, rgba(10,15,30,0), rgba(10,15,30,.92) 35%, rgba(10,15,30,.98) 100%); justify-content:stretch;}
       .finaleActions .btn{flex:1; text-align:center}
-
-      /* Sağ üst X her zaman görünsün */
-      .finaleClose{
-        top: 10px;
-        right: 10px;
-        width: 46px;
-        height: 46px;
-        z-index: 5;
-      }
+      .finaleClose{top:10px; right:10px; width:46px; height:46px; z-index:5;}
     }
-      .caption .big{font-size:16px; margin:0 0 6px;}
-      .caption .small{font-size:13.5px; line-height:1.55;}
-    }
-
   </style>
 </head>
 <body>
@@ -580,7 +482,6 @@
     }
 
     function svgPlaceholder(big, small){
-      // Ensure any user-provided text cannot break SVG markup.
       const safeBig = escapeXml(big);
       const safeSmall = escapeXml(small);
       const svg = `\
@@ -680,7 +581,6 @@
     document.getElementById('prevBtn').addEventListener('click', () => goTo(currentIndex - 1));
     document.getElementById('nextBtn').addEventListener('click', () => goTo(currentIndex + 1));
 
-    // Keyboard support
     window.addEventListener('keydown', (e) => {
       if(e.key === 'ArrowLeft') goTo(currentIndex - 1);
       if(e.key === 'ArrowRight') goTo(currentIndex + 1);
@@ -692,7 +592,6 @@
 
     frame.addEventListener('click', () => openLightbox(currentIndex));
 
-    // Autoplay
     const autoplayBtn = document.getElementById('autoplayBtn');
     autoplayBtn.addEventListener('click', () => {
       autoplay = !autoplay;
@@ -809,7 +708,7 @@
       b.addEventListener('click', openFinale);
       answersEl.appendChild(b);
       popHearts(18);
-      setTimeout(() => openFinale(), 700);
+      setTimeout(openFinale, 700);
     }
 
     function resetGame(){
@@ -832,6 +731,7 @@
     heartsBox.addEventListener('click', () => popHearts(8));
 
     function popHearts(count){
+      // hearts only inside the small "hearts" box
       const rect = heartsBox.getBoundingClientRect();
       for(let i=0;i<count;i++){
         const h = document.createElement('div');
@@ -846,6 +746,69 @@
       }
     }
 
+    // Full-screen heart rain (used when surprise opens)
+    let heartRainTimer = null;
+    let rainLayer = null;
+
+    function ensureRainLayer(){
+      if(rainLayer) return rainLayer;
+      rainLayer = document.createElement('div');
+      rainLayer.className = 'rainLayer';
+      rainLayer.id = 'rainLayer';
+      document.body.appendChild(rainLayer);
+      return rainLayer;
+    }
+
+    function spawnRainHearts(count){
+      const layer = ensureRainLayer();
+      const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+      for(let i=0;i<count;i++){
+        const el = document.createElement('div');
+        el.className = 'rainHeart';
+        el.textContent = Math.random() > .2 ? '💗' : '✨';
+
+        const size = 18 + Math.random()*12;
+        el.style.fontSize = size + 'px';
+
+        const left = Math.random() * Math.max(10, (vw - 20));
+        el.style.left = left + 'px';
+
+        const dx = (Math.random()*90 - 45).toFixed(1) + 'px';
+        const dur = (1.4 + Math.random()*1.0).toFixed(2) + 's';
+        el.style.setProperty('--dx', dx);
+        el.style.setProperty('--dur', dur);
+
+        layer.appendChild(el);
+        el.addEventListener('animationend', () => el.remove());
+      }
+    }
+
+    function startHeartRain(){
+      stopHeartRain();
+      ensureRainLayer();
+      const duration = 2600; // ms
+      const start = Date.now();
+      spawnRainHearts(22); // first burst
+      heartRainTimer = setInterval(() => {
+        spawnRainHearts(14);
+        if(Date.now() - start > duration){
+          stopHeartRain();
+        }
+      }, 220);
+    }
+
+    function stopHeartRain(){
+      if(heartRainTimer){
+        clearInterval(heartRainTimer);
+        heartRainTimer = null;
+      }
+      if(rainLayer){
+        setTimeout(() => {
+          if(rainLayer) rainLayer.innerHTML = '';
+        }, 420);
+      }
+    }
+
     // =========================
     // 4) FINALE (surprise image: suprise.jpg)
     // =========================
@@ -854,7 +817,6 @@
       src: 'suprise.jpg',
       fallback: svgPlaceholder('suprise.jpg', 'Sürpriz fotoğraf'),
       title: 'İyi ki doğdun 💗',
-      // IMPORTANT: Use a template literal or \n escapes; raw newlines inside single quotes cause SyntaxError.
       note: `Bu sadece bir doğum günü değil.
 Bu, senin dünyaya kattığın güzelliğin
 küçük bir kutlaması.
@@ -875,13 +837,16 @@ küçük bir kutlaması.
       finale.classList.add('open');
       finale.setAttribute('aria-hidden','false');
       document.body.style.overflow = 'hidden';
-      popHearts(12);
+
+      // 💗 HEART RAIN on surprise open
+      startHeartRain();
     }
 
     function closeFinale(){
       finale.classList.remove('open');
       finale.setAttribute('aria-hidden','true');
       document.body.style.overflow = '';
+      stopHeartRain();
     }
 
     document.getElementById('finaleClose').addEventListener('click', closeFinale);
@@ -924,10 +889,17 @@ küçük bir kutlaması.
       console.assert(required.every((f, idx) => moments[idx].src === f), 'Filenames should be images1..images7');
       console.assert(finaleConfig.src === 'suprise.jpg', 'Final image filename should be suprise.jpg');
 
-      // Added tests
+      // Existing tests + extras
       const ph = svgPlaceholder('Test <>&"\' 😀', 'Küçük — deneme');
       console.assert(typeof ph === 'string' && ph.startsWith('data:image/svg+xml'), 'svgPlaceholder should return data:image/svg+xml...');
       console.assert(typeof finaleConfig.note === 'string' && finaleConfig.note.includes('\n'), 'finaleConfig.note should contain newlines');
+      console.assert(typeof openFinale === 'function' && typeof closeFinale === 'function', 'Finale functions should exist');
+      console.assert(typeof startHeartRain === 'function' && typeof stopHeartRain === 'function', 'Heart rain functions should exist');
+
+      ensureRainLayer();
+      console.assert(document.getElementById('rainLayer'), 'Rain layer should exist');
+      spawnRainHearts(1);
+      console.assert(document.getElementById('rainLayer').children.length >= 1, 'Rain layer should contain hearts after spawn');
 
       console.info('[OK] Basic tests passed');
     }
